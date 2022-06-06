@@ -24,6 +24,7 @@ app.get('/', (req, res) => {
 
 // list all the APIs: mouse, clothes, etc
 // http://localhost:9200/list-apis
+// https://app2fkartapi.herokuapp.com/list-apis
 app.get('/list-apis', (req, res) => {
     db.listCollections().toArray((err, collInfo) => {
         if (err) throw err;
@@ -38,6 +39,7 @@ app.get('/list-apis', (req, res) => {
 
 // api to get `all items` of any itemType 
 // http://localhost:9200/api/shirts
+// https://app2fkartapi.herokuapp.com/api/shirts
 app.get('/api/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     db.collection(itemName).find().toArray((err, result) => {
@@ -51,6 +53,8 @@ app.get('/api/:itemName', (req, res) => {
 // api for search bar (returns 12 items by default)
 // http://localhost:9200/item/clothes
 // http://localhost:9200/item/clothes?itemId=12
+// https://app2fkartapi.herokuapp.com/item/clothes
+// https://app2fkartapi.herokuapp.com/item/clothes?itemId=12
 app.get('/item/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     let itemId = req.query.itemId;
@@ -68,6 +72,8 @@ app.get('/item/:itemName', (req, res) => {
 // filter by popularity
 // http://localhost:9200/filter/popularity/mouses
 // http://localhost:9200/filter/popularity/refrigerators
+// https://app2fkartapi.herokuapp.com/filter/popularity/mouses
+// https://app2fkartapi.herokuapp.com/filter/popularity/refrigerators
 app.get('/filter/popularity/:item', (req, res) => {
     let itemName = req.params.item;
     let query = {hidden_stars:{$gt: 4}};
@@ -81,6 +87,8 @@ app.get('/filter/popularity/:item', (req, res) => {
 // filter by price
 // http://localhost:9200/filter/price/bags
 // http://localhost:9200/filter/price/bags?sort=-1
+// https://app2fkartapi.herokuapp.com/filter/price/bags
+// https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1
 app.get('/filter/price/:item', (req, res) => {
     let itemName = req.params.item;
     let sort_order = {new_price: 1};        // -1 to sort in desc order
@@ -96,6 +104,8 @@ app.get('/filter/price/:item', (req, res) => {
 // filter by newest first
 // http://localhost:9200/filter/new/bags
 // http://localhost:9200/filter/new/keyboards
+// https://app2fkartapi.herokuapp.com/filter/new/bags
+// https://app2fkartapi.herokuapp.com/filter/new/keyboards
 app.get('/filter/new/:item', (req, res) => {
     let itemName = req.params.item;
     let query = { $and:[{hidden_stars: {$lt:4.2 , $gt: 3.5}}] };       // my criteria defining 'what is new data'
@@ -108,7 +118,8 @@ app.get('/filter/new/:item', (req, res) => {
 
 // filter by discount
 // http://localhost:9200/filter/discount/mouses/70
-http://localhost:9200/filter/discount/powerbanks/50
+// http://localhost:9200/filter/discount/powerbanks/50
+// https://app2fkartapi.herokuapp.com/filter/discount/powerbanks/50
 app.get('/filter/discount/:item/:dis', (req, res) => {
     let itemName = req.params.item;
     let discount = req.params.dis;
@@ -122,7 +133,8 @@ app.get('/filter/discount/:item/:dis', (req, res) => {
 
 // filter by customer-rating
 // http://localhost:9200/filter/rating/bags/4
-http://localhost:9200/filter/rating/pillows/3
+// http://localhost:9200/filter/rating/pillows/3
+// https://app2fkartapi.herokuapp.com/filter/rating/pillows/3
 app.get('/filter/rating/:item/:rating', (req, res) => {
     let itemName = req.params.item;
     let rating = req.params.rating;
@@ -136,6 +148,7 @@ app.get('/filter/rating/:item/:rating', (req, res) => {
 
 // filter by special-price (offers)
 // http://localhost:9200/filter/offers/mouses
+// https://app2fkartapi.herokuapp.com/filter/offers/mouses
 app.get('/filter/offers/:item', (req, res) => {
     let itemName = req.params.item;
     let sort_order = {discount: -1}     // max discount first (i.e. less cost items) : offer!
@@ -170,6 +183,8 @@ app.get('/filter/offers/:item', (req, res) => {
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com"
 // }
+// http://localhost:9200/cart/add
+// https://app2fkartapi.herokuapp.com/cart/add
 app.post('/cart/add', (req, res) => {
     let itemType = req.body.item_type;
     let itemId = Number(req.body.item_id);
@@ -201,6 +216,8 @@ app.post('/cart/add', (req, res) => {
 // fetch item from cart (all / based on email)
 // http://localhost:9200/cart/get
 // http://localhost:9200/cart/get?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/cart/get
+// https://app2fkartapi.herokuapp.com/cart/get?email=alpha1@alpha.com
 app.get('/cart/get', (req, res) => {
     let emailId = req.query.email;        // provide email in url
     let query = {};
@@ -217,6 +234,7 @@ app.get('/cart/get', (req, res) => {
 // http://localhost:9200/cart/delete/alpha1@alpha.com/mouses/58
 // http://localhost:9200/cart/delete/alpha14@alpha.com/clothes/18
 // http://localhost:9200/cart/delete/alpha14@alpha.com/keyboard/18
+// https://app2fkartapi.herokuapp.com/cart/delete/alpha14@alpha.com/keyboard/18
 app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemType = req.params.item_type;
@@ -235,6 +253,8 @@ app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
 // for developer purpose 
 // http://localhost:9200/cart/deleteAll
 // http://localhost:9200/cart/deleteAll?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/cart/deleteAll
+// https://app2fkartapi.herokuapp.com/cart/deleteAll?email=alpha1@alpha.com
 app.delete('/cart/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
@@ -263,6 +283,8 @@ app.delete('/cart/deleteAll', (req, res) => {
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com"
 // }
+// http://localhost:9200/wishlist/add
+// https://app2fkartapi.herokuapp.com/wishlist/add
 app.post('/wishlist/add', (req, res) => {
     let itemId = Number(req.body.item_id);
     let itemType = req.body.item_type;
@@ -294,6 +316,8 @@ app.post('/wishlist/add', (req, res) => {
 // fetch item from wishlist (all / based on email)
 // http://localhost:9200/wishlist/get
 // http://localhost:9200/wishlist/get?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/wishlist/get
+// https://app2fkartapi.herokuapp.com/wishlist/get?email=alpha1@alpha.com
 app.get('/wishlist/get', (req, res) => {
     let emailId = req.query.email;        // provide email in url
     let query = {};
@@ -308,6 +332,7 @@ app.get('/wishlist/get', (req, res) => {
 
 // delete from wishlist
 // http://localhost:9200/wishlist/delete/alpha1@alpha.com/mouses/58
+// https://app2fkartapi.herokuapp.com/wishlist/delete/alpha1@alpha.com/mouses/58
 app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemType = req.params.item_type;
@@ -327,6 +352,8 @@ app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
 // for developer purpose 
 // http://localhost:9200/wishlist/deleteAll
 // http://localhost:9200/wishlist/deleteAll?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/wishlist/deleteAll
+// https://app2fkartapi.herokuapp.com/wishlist/deleteAll?email=alpha1@alpha.com
 app.delete('/wishlist/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
@@ -371,6 +398,8 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // "bank_name": "SBI",
 // "transaction_state": "Completed"     // need not to pass
 // }
+// http://localhost:9200/orders/add
+// https://app2fkartapi.herokuapp.com/orders/add
 app.post('/orders/add', (req, res) => {
     let orderId = Math.floor(Math.random() * 10000);
     req.body.order_id = orderId;
@@ -400,6 +429,8 @@ app.post('/orders/add', (req, res) => {
 // fetch item from wishlist (all / based on email)
 // http://localhost:9200/orders/get
 // http://localhost:9200/orders/get?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/orders/get
+// https://app2fkartapi.herokuapp.com/orders/get?email=alpha1@alpha.com
 app.get('/orders/get', (req, res) => {
     let email = req.query.email;        // provide email in url
     let query = {};
@@ -415,6 +446,7 @@ app.get('/orders/get', (req, res) => {
 
 // update order status
 // http://localhost:9200/orders/update/2575
+// https://app2fkartapi.herokuapp.com/orders/update/2575
 // {
 // "transaction_state": "Completed",
 // "date": "06-06-2022"
@@ -439,6 +471,8 @@ app.put('/orders/update/:order_id', (req, res) => {
 // for developer purpose 
 // http://localhost:9200/orders/deleteAll
 // http://localhost:9200/orders/deleteAll?email=alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/orders/deleteAll
+// https://app2fkartapi.herokuapp.com/orders/deleteAll?email=alpha1@alpha.com
 app.delete('/orders/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
