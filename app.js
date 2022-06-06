@@ -164,18 +164,17 @@ app.get('/filter/offers/:item', (req, res) => {
 
 // add to cart
 // {
-//     "_id": "629dd55feb5308513e478634",
 //     "item_type": "mouses",
 //     "item_id": 58,
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com"
 // }
 app.post('/cart/add', (req, res) => {
-    let item_type = req.body.item_type;
+    let itemType = req.body.item_type;
     let itemId = Number(req.body.item_id);
     let name = req.body.name;
     let emailId = req.body.email;
-    if(!item_type || !itemId || !name || !emailId) {
+    if(!itemType || !itemId || !name || !emailId) {
         res.send('Invalid input type');
     } else if(itemId > 80) {
         res.send('Invalid item id');
@@ -201,10 +200,10 @@ app.post('/cart/add', (req, res) => {
 // http://localhost:9200/cart/get
 // http://localhost:9200/cart/get?email=alpha1@alpha.com
 app.get('/cart/get', (req, res) => {
-    let email = req.query.email;        // provide email in url
+    let emailId = req.query.email;        // provide email in url
     let query = {};
-    if(email) {
-        query = {email: email};
+    if(emailId) {
+        query = {email: emailId};
     }
     db.collection('cart').find(query).toArray((err, result) => {
         if(err) throw err;
@@ -213,7 +212,7 @@ app.get('/cart/get', (req, res) => {
 });
 
 // delete from cart
-http://localhost:9200/cart/delete/629dd55feb5308513e478634/58
+// http://localhost:9200/cart/delete/629dd55feb5308513e478634/58
 app.delete('/cart/delete/:email/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemId = Number(req.params.item_id);
@@ -238,10 +237,162 @@ app.delete('/cart/deleteAll', (req, res) => {
         res.send(result);
     })
 })
+
+// ---------------------------------------------------------------
 // wishlist  (same as cart)
 // post, get_particular_user's, delete
-// orders (same as cart)
+
+// add to wishlist
+// {
+//     "item_id": 58,
+//     "item_type": "mouses",
+//     "name": "alpha1",
+//     "email": "alpha1@alpha.com"
+// }
+app.post('/wishlist/add', (req, res) => {
+    let itemId = Number(req.body.item_id);
+    let itemType = req.body.item_type;
+    let name = req.body.name;
+    let emailId = req.body.email;
+    if(!itemType || !itemId || !name || !emailId) {
+        res.send('Invalid input type');
+    } else if(itemId > 80) {        // max item id = 80
+        res.send('Invalid item id');
+    } else {
+        // check if item already exists in user's wishlist
+        query = {email: emailId, item_id: itemId};
+        db.collection('wishlist').find(query).toArray((err, result) => {
+            if(result.length > 0) {
+                res.send('item already present in wishlist');
+            } 
+            // if not exists then add
+            else {
+                db.collection('wishlist').insertOne(req.body, (err, result) => {
+                    if(err) throw err;
+                    res.send(result);
+                })
+            }
+        })
+    }
+});
+
+// fetch item from wishlist (all / based on email)
+// http://localhost:9200/wishlist/get
+// http://localhost:9200/wishlist/get?email=alpha1@alpha.com
+app.get('/wishlist/get', (req, res) => {
+    let emailId = req.query.email;        // provide email in url
+    let query = {};
+    if(emailId) {
+        query = {email: emailId};
+    }
+    db.collection('wishlist').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// delete from wishlist
+// http://localhost:9200/wishlist/delete/629dd55feb5308513e478634/58
+app.delete('/wishlist/delete/:email/:item_id', (req,res) => {
+    let emailId = req.params.email;
+    let itemId = Number(req.params.item_id);
+    db.collection('wishlist').deleteOne({email:emailId, item_id: itemId}, (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+});
+
+// for developer purpose 
+// http://localhost:9200/wishlist/deleteAll
+// http://localhost:9200/wishlist/deleteAll?email=alpha1@alpha.com
+app.delete('/cart/deleteAll', (req, res) => {
+    let emailId = req.query.email;
+    let query = {};
+    if(emailId) {
+        query = {email: emailId};
+    }
+    db.collection('wishlist').deleteMany(query, (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+})
+
+// ----------------------------------------------------------------
+// orders
 // post, get_particular_user's, get_all_items with count
+
+// order made
+// {
+//     "order_id": 51,
+//     "item_id": 58,
+//     "item_type": "mouses",
+//     "name": "alpha1",
+//     "email": "alpha1@alpha.com",
+//     "amount": 345,
+//     "bank_name": "SBI",
+//     "transaction_state": "In Process"
+// }
+// example2 
+// {
+// "order_id": 51,
+// "item_id": 43,
+// "item_type": "keyboards",
+// "name": "alpha1",
+// "email": "alpha3451@alpha.com",
+// "amount": 345,
+// "bank_name": "SBI"
+// }
+app.post('/orders/add', (req, res) => {
+    let orderId = Math.floor(Math.random() * 10000);
+    let itemId = Number(req.body.item_id);
+    let itemType = req.body.item_type;
+    let name = req.body.name;
+    let emailId = req.body.email;
+    let amount = req.body.amount;
+    let bankName = req.body.bank_name;
+    let transactionState = req.body.transaction_state ? req.body.transaction_state : 'In Progress';
+
+    if(!orderId || !itemId || !itemType || !name || !emailId || !amount || !bankName || !transactionState) {
+        res.send('Invalid input type');
+    } else if(itemId > 80) {
+        res.send('Invalid item id');
+    } else {
+        db.collection('orders').insertOne(req.body, (err, result) => {
+            if(err) throw err;
+            res.send(result);
+        })
+    }
+});
+
+// fetch item from wishlist (all / based on email)
+// http://localhost:9200/orders/get
+// http://localhost:9200/orders/get?email=alpha1@alpha.com
+app.get('/orders/get', (req, res) => {
+    let email = req.query.email;        // provide email in url
+    let query = {};
+    if(email) {
+        query = {email: email};
+    }
+    db.collection('orders').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// for developer purpose 
+// http://localhost:9200/orders/deleteAll
+// http://localhost:9200/orders/deleteAll?email=alpha1@alpha.com
+app.delete('/orders/deleteAll', (req, res) => {
+    let emailId = req.query.email;
+    let query = {};
+    if(emailId) {
+        query = {email: emailId};
+    }
+    db.collection('orders').deleteMany(query, (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+})
 
 // connect to database
 MongoClient.connect(mongoUrl, (err, client) => {
