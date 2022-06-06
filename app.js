@@ -302,6 +302,7 @@ app.delete('/wishlist/delete/:email/:item_id', (req,res) => {
     })
 });
 
+
 // for developer purpose 
 // http://localhost:9200/wishlist/deleteAll
 // http://localhost:9200/wishlist/deleteAll?email=alpha1@alpha.com
@@ -380,6 +381,30 @@ app.get('/orders/get', (req, res) => {
         res.send(result);
     });
 });
+
+
+// update order status
+// http://localhost:9200/orders/update/2575
+// {
+// "transaction_state": "Completed",
+// "date": "06-06-2022"
+// }
+app.put('/orders/update/:order_id', (req, res) => {
+    let orderId = Number(req.params.order_id);
+    db.collection('orders').updateOne(
+        {order_id: orderId},
+        {
+            $set:{
+                "transaction_state":req.body.transaction_state,
+                "date":req.body.date
+            }
+        }, (err, result) => {
+            if(err) throw err;
+            // res.send(result);
+            res.send("Order Updated");
+        }
+    )
+})
 
 // for developer purpose 
 // http://localhost:9200/orders/deleteAll
