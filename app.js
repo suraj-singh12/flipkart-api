@@ -19,7 +19,8 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
-    res.send('Express Server Default');
+    // res.send('Express Server Default');
+    res.send('fkart API default')
 });
 
 // list all the APIs: mouse, clothes, etc
