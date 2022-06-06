@@ -37,6 +37,7 @@ app.get('/list-apis', (req, res) => {
 });
 
 // api to get `all items` of any itemType 
+// http://localhost:9200/api/shirts
 app.get('/api/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     db.collection(itemName).find().toArray((err, result) => {
@@ -44,8 +45,6 @@ app.get('/api/:itemName', (req, res) => {
         res.send(result);
     });
 })
-
-// ## mouses, bags
 
 // NOTE: /item, /filters return first 12 items by default
 
@@ -69,6 +68,7 @@ app.get('/item/:itemName', (req, res) => {
 // api for details page, clicking on popularity will send item type to js/db 
 // filter by popularity
 // http://localhost:9200/filter/popularity/mouses
+// http://localhost:9200/filter/popularity/refrigerators
 app.get('/filter/popularity/:item', (req, res) => {
     let itemName = req.params.item;
     let query = {hidden_stars:{$gt: 4}};
@@ -81,7 +81,7 @@ app.get('/filter/popularity/:item', (req, res) => {
 
 // filter by price
 // http://localhost:9200/filter/price/bags
-http://localhost:9200/filter/price/bags?sort=-1
+// http://localhost:9200/filter/price/bags?sort=-1
 app.get('/filter/price/:item', (req, res) => {
     let itemName = req.params.item;
     let sort_order = {new_price: 1};        // -1 to sort in desc order
@@ -109,6 +109,7 @@ app.get('/filter/new/:item', (req, res) => {
 
 // filter by discount
 // http://localhost:9200/filter/discount/mouses/70
+http://localhost:9200/filter/discount/powerbanks/50
 app.get('/filter/discount/:item/:dis', (req, res) => {
     let itemName = req.params.item;
     let discount = req.params.dis;
@@ -122,6 +123,7 @@ app.get('/filter/discount/:item/:dis', (req, res) => {
 
 // filter by customer-rating
 // http://localhost:9200/filter/rating/bags/4
+http://localhost:9200/filter/rating/pillows/3
 app.get('/filter/rating/:item/:rating', (req, res) => {
     let itemName = req.params.item;
     let rating = req.params.rating;
@@ -213,6 +215,7 @@ app.get('/cart/get', (req, res) => {
 });
 
 // delete from cart
+// http://localhost:9200/cart/delete/alpha1@alpha.com/mouses/58
 // http://localhost:9200/cart/delete/alpha14@alpha.com/clothes/18
 // http://localhost:9200/cart/delete/alpha14@alpha.com/keyboard/18
 app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
@@ -305,7 +308,7 @@ app.get('/wishlist/get', (req, res) => {
 });
 
 // delete from wishlist
-// http://localhost:9200/wishlist/delete/629dd55feb5308513e478634/58
+// http://localhost:9200/wishlist/delete/alpha1@alpha.com/mouses/58
 app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemType = req.params.item_type;
@@ -366,7 +369,7 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // "email": "alpha3451@alpha.com",
 // "amount": 345,
 // "bank_name": "SBI",
-// "transaction_state": "Completed"
+// "transaction_state": "Completed"     // need not to pass
 // }
 app.post('/orders/add', (req, res) => {
     let orderId = Math.floor(Math.random() * 10000);
@@ -378,6 +381,7 @@ app.post('/orders/add', (req, res) => {
     let amount = req.body.amount;
     let bankName = req.body.bank_name;
     let transactionState = req.body.transaction_state ? req.body.transaction_state : 'In Progress';
+    req.body.transaction_state = transactionState;
 
     if(!orderId || !itemId || !itemType || !name || !emailId || !amount || !bankName || !transactionState) {
         res.send('Invalid input type');
@@ -455,7 +459,7 @@ app.delete('/orders/deleteAll', (req, res) => {
 MongoClient.connect(mongoUrl, (err, client) => {
     if (err) console.log("Error while connecting");
 
-    db = client.db('myProject11');
+    db = client.db('myProject1');
 
     app.listen(port, (err) => {
         if (err) throw err;
