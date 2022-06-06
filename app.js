@@ -321,9 +321,9 @@ app.delete('/cart/deleteAll', (req, res) => {
 // orders
 // post, get_particular_user's, get_all_items with count
 
-// order made
+// order made STRUCTURE
 // {
-//     "order_id": 51,
+//     "order_id": 51,    (send any number; it is auto generated later uniquely)
 //     "item_id": 58,
 //     "item_type": "mouses",
 //     "name": "alpha1",
@@ -340,10 +340,12 @@ app.delete('/cart/deleteAll', (req, res) => {
 // "name": "alpha1",
 // "email": "alpha3451@alpha.com",
 // "amount": 345,
-// "bank_name": "SBI"
+// "bank_name": "SBI",
+// "transaction_state": "Completed"
 // }
 app.post('/orders/add', (req, res) => {
     let orderId = Math.floor(Math.random() * 10000);
+    req.body.order_id = orderId;
     let itemId = Number(req.body.item_id);
     let itemType = req.body.item_type;
     let name = req.body.name;
