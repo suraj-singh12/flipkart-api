@@ -7,8 +7,8 @@ let port = process.env.PORT || 8500;
 
 let mongo = require('mongodb');
 let MongoClient = mongo.MongoClient;
-let mongoUrl = process.env.MongoUrl;     // local url
-// let mongoUrl = process.env.MongoLiveUrl;
+// let mongoUrl = process.env.MongoUrl;     // local url
+let mongoUrl = process.env.MongoLiveUrl;
 let db;
 
 //middleware 
@@ -50,7 +50,7 @@ app.get('/api/:itemName', (req, res) => {
 
 // api for search bar (returns 12 items by default)
 // http://localhost:9200/item/clothes
-// http://localhost:9200/item/clothes/12
+// http://localhost:9200/item/clothes?itemId=12
 app.get('/item/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     let itemId = req.query.itemId;
@@ -58,7 +58,6 @@ app.get('/item/:itemName', (req, res) => {
     if(itemId) {
         query = {item_id: Number(itemId)};
     }
-    console.log(query)
     db.collection(itemName).find(query).limit(12).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
@@ -367,6 +366,7 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // "item_type": "keyboards",
 // "name": "alpha1",
 // "email": "alpha3451@alpha.com",
+// "phone": 9589658210,
 // "amount": 345,
 // "bank_name": "SBI",
 // "transaction_state": "Completed"     // need not to pass
@@ -378,12 +378,13 @@ app.post('/orders/add', (req, res) => {
     let itemType = req.body.item_type;
     let name = req.body.name;
     let emailId = req.body.email;
+    let phoneNo = req.body.phone;
     let amount = req.body.amount;
     let bankName = req.body.bank_name;
     let transactionState = req.body.transaction_state ? req.body.transaction_state : 'In Progress';
     req.body.transaction_state = transactionState;
 
-    if(!orderId || !itemId || !itemType || !name || !emailId || !amount || !bankName || !transactionState) {
+    if(!orderId || !itemId || !itemType || !name || !emailId || !phoneNo || !amount || !bankName) {
         res.send('Invalid input type');
     } else if(itemId > 80) {
         res.send('Invalid item id');
@@ -459,7 +460,7 @@ app.delete('/orders/deleteAll', (req, res) => {
 MongoClient.connect(mongoUrl, (err, client) => {
     if (err) console.log("Error while connecting");
 
-    db = client.db('myProject1');
+    db = client.db('project2');
 
     app.listen(port, (err) => {
         if (err) throw err;
