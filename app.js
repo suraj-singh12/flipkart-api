@@ -148,7 +148,7 @@ app.get('/filter/offers/:item', (req, res) => {
 // -----------------------------------------------------------------------------------------
 // cart
 // post, get_particular_user's, delete
-/** structure (POST)
+/** structure (POST)        [in   /cart/add  send data in below format in body of postman as raw json]
  * item_type: string    [collection name]
  * item_id: number      [will be authenticated if exists or not]
  * name: string
@@ -161,7 +161,15 @@ app.get('/filter/offers/:item', (req, res) => {
  * item_no: number
  * email: string
 */
+
 // add to cart
+// {
+//     "_id": "629dd55feb5308513e478634",
+//     "item_type": "mouses",
+//     "item_id": 58,
+//     "name": "alpha1",
+//     "email": "alpha1@alpha.com"
+// }
 app.post('/cart/add', (req, res) => {
     let item_type = req.body.item_type;
     let itemId = Number(req.body.item_id);
@@ -190,6 +198,8 @@ app.post('/cart/add', (req, res) => {
 });
 
 // fetch item from cart (all / based on email)
+// http://localhost:9200/cart/get
+// http://localhost:9200/cart/get?email=alpha1@alpha.com
 app.get('/cart/get', (req, res) => {
     let email = req.query.email;        // provide email in url
     let query = {};
@@ -203,14 +213,31 @@ app.get('/cart/get', (req, res) => {
 });
 
 // delete from cart
-app.delete('/cart/:email', (req,res) => {
-    let email = req.params.email;
-    db.collection('cart').deleteOne({email:email}, (err, result) => {
+http://localhost:9200/cart/delete/629dd55feb5308513e478634/58
+app.delete('/cart/delete/:email/:item_id', (req,res) => {
+    let emailId = req.params.email;
+    let itemId = Number(req.params.item_id);
+    db.collection('cart').deleteOne({email:emailId, item_id: itemId}, (err, result) => {
         if(err) throw err;
-        res.send('Order Deleted')
+        res.send(result);
+        // res.send('Order Deleted')
     })
 });
 
+// for developer purpose 
+// http://localhost:9200/cart/deleteAll
+// http://localhost:9200/cart/deleteAll?email=alpha1@alpha.com
+app.delete('/cart/deleteAll', (req, res) => {
+    let emailId = req.query.email;
+    let query = {};
+    if(emailId) {
+        query = {email: emailId};
+    }
+    db.collection('cart').deleteMany(query, (err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+})
 // wishlist  (same as cart)
 // post, get_particular_user's, delete
 // orders (same as cart)
