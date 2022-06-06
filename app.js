@@ -164,8 +164,8 @@ app.get('/filter/offers/:item', (req, res) => {
 
 // add to cart
 // {
-//     "item_type": "mouses",
 //     "item_id": 58,
+//     "item_type": "mouses",
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com"
 // }
@@ -180,7 +180,7 @@ app.post('/cart/add', (req, res) => {
         res.send('Invalid item id');
     } else {
         // check if item already exists in user's cart
-        query = {email: emailId, item_id: itemId};
+        query = {email: emailId, item_id: itemId, item_type: itemType};
         db.collection('cart').find(query).toArray((err, result) => {
             if(result.length > 0) {
                 res.send('item already present in cart');
@@ -189,7 +189,8 @@ app.post('/cart/add', (req, res) => {
             else {
                 db.collection('cart').insertOne(req.body, (err, result) => {
                     if(err) throw err;
-                    res.send(result);
+                    // res.send(result);
+                    res.send(`Item added with Object id: ${result.insertedId}`)
                 })
             }
         })
@@ -212,14 +213,20 @@ app.get('/cart/get', (req, res) => {
 });
 
 // delete from cart
-// http://localhost:9200/cart/delete/629dd55feb5308513e478634/58
-app.delete('/cart/delete/:email/:item_id', (req,res) => {
+// http://localhost:9200/cart/delete/alpha14@alpha.com/clothes/18
+// http://localhost:9200/cart/delete/alpha14@alpha.com/keyboard/18
+app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
+    let itemType = req.params.item_type;
     let itemId = Number(req.params.item_id);
-    db.collection('cart').deleteOne({email:emailId, item_id: itemId}, (err, result) => {
+    db.collection('cart').deleteOne({email:emailId, item_id: itemId, item_type: itemType}, (err, result) => {
         if(err) throw err;
-        res.send(result);
-        // res.send('Order Deleted')
+        // res.send(result);
+        if(Number(result.deletedCount) === 0) {
+            res.status(500).send('No such item exists!');
+        } else {
+            res.status(200).send(`Item no: ${itemId}, type: ${itemType}, of user ${emailId} deleted !\n Delete Count: ${result.deletedCount}`)
+        }
     })
 });
 
@@ -234,7 +241,12 @@ app.delete('/cart/deleteAll', (req, res) => {
     }
     db.collection('cart').deleteMany(query, (err, result) => {
         if(err) throw err;
-        res.send(result);
+        // res.send(result);
+        if(Number(result.deletedCount) === 0) {
+            res.status(500).send('No records exist!')
+        } else {
+            res.status(200).send(`Erased all ${result.deletedCount} records`)
+        }
     })
 })
 
@@ -260,16 +272,17 @@ app.post('/wishlist/add', (req, res) => {
         res.send('Invalid item id');
     } else {
         // check if item already exists in user's wishlist
-        query = {email: emailId, item_id: itemId};
+        query = {email: emailId, item_id: itemId, item_type: itemType};
         db.collection('wishlist').find(query).toArray((err, result) => {
             if(result.length > 0) {
-                res.send('item already present in wishlist');
+                res.send('Item already present in wishlist');
             } 
             // if not exists then add
             else {
                 db.collection('wishlist').insertOne(req.body, (err, result) => {
                     if(err) throw err;
-                    res.send(result);
+                    // res.send(result);
+                    res.send(`Item added with Object id: ${result.insertedId}`)
                 })
             }
         })
@@ -293,12 +306,18 @@ app.get('/wishlist/get', (req, res) => {
 
 // delete from wishlist
 // http://localhost:9200/wishlist/delete/629dd55feb5308513e478634/58
-app.delete('/wishlist/delete/:email/:item_id', (req,res) => {
+app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
+    let itemType = req.params.item_type;
     let itemId = Number(req.params.item_id);
-    db.collection('wishlist').deleteOne({email:emailId, item_id: itemId}, (err, result) => {
+    db.collection('wishlist').deleteOne({email:emailId, item_type: itemType, item_id: itemId}, (err, result) => {
         if(err) throw err;
-        res.send(result);
+        // res.send(result);
+        if(Number(result.deletedCount) === 0) {
+            res.status(500).send('No such item exists!');
+        } else {
+            res.status(200).send(`Item no: ${itemId}, type: ${itemType}, of user ${emailId} deleted !\n Delete Count: ${result.deletedCount}`)
+        }
     })
 });
 
@@ -306,7 +325,7 @@ app.delete('/wishlist/delete/:email/:item_id', (req,res) => {
 // for developer purpose 
 // http://localhost:9200/wishlist/deleteAll
 // http://localhost:9200/wishlist/deleteAll?email=alpha1@alpha.com
-app.delete('/cart/deleteAll', (req, res) => {
+app.delete('/wishlist/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
     if(emailId) {
@@ -314,7 +333,12 @@ app.delete('/cart/deleteAll', (req, res) => {
     }
     db.collection('wishlist').deleteMany(query, (err, result) => {
         if(err) throw err;
-        res.send(result);
+        // res.send(result);
+        if(Number(result.deletedCount) === 0) {
+            res.status(500).send('No records exist!')
+        } else {
+            res.status(200).send(`Erased all ${result.deletedCount} records`)
+        }
     })
 })
 
@@ -362,7 +386,8 @@ app.post('/orders/add', (req, res) => {
     } else {
         db.collection('orders').insertOne(req.body, (err, result) => {
             if(err) throw err;
-            res.send(result);
+            // res.send(result);
+            res.send(`Order made. Returned OrderId: ${orderId}`)
         })
     }
 });
@@ -401,7 +426,7 @@ app.put('/orders/update/:order_id', (req, res) => {
         }, (err, result) => {
             if(err) throw err;
             // res.send(result);
-            res.send("Order Updated");
+            res.status(200).send(`Order ${orderId} Updated`);
         }
     )
 })
@@ -417,7 +442,12 @@ app.delete('/orders/deleteAll', (req, res) => {
     }
     db.collection('orders').deleteMany(query, (err, result) => {
         if(err) throw err;
-        res.send(result);
+        // res.send(result);
+        if(Number(result.deletedCount) === 0) {
+            res.status(500).send('No records exist!')
+        } else {
+            res.status(200).send(`Erased all ${result.deletedCount} records`)
+        }
     })
 })
 
