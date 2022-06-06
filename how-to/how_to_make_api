@@ -37,3 +37,6 @@
 26) the part http://localhost:port_no   will get replaced by   https://your_app_name.herokuapp.com  in live api when you use
 27) now test your live api using postman and ensure it's working fine !
 28) you are done then! Good Job! 
+
+NOTE: Now every-time you make any change to your `app.js`, you need to go to heroku, sign in and go to your app, and deploy the main branch again.
+if you make any change to your .env file, you need to add/remove the same in `config vars` in settings of your heroku app. 
