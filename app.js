@@ -20,7 +20,7 @@ app.use(cors());
 
 app.get('/', (req, res) => {
     // res.send('Express Server Default');
-    res.send('fkart API default')
+    res.send('<h1>Fkart API default</h1>')
 });
 
 // list all the APIs: mouse, clothes, etc
