@@ -145,14 +145,75 @@ app.get('/filter/offers/:item', (req, res) => {
     });
 });
 
-
-
-
+// -----------------------------------------------------------------------------------------
 // cart
 // post, get_particular_user's, delete
-// wishlist 
+/** structure (POST)
+ * item_type: string    [collection name]
+ * item_id: number      [will be authenticated if exists or not]
+ * name: string
+ * email: string
+ */
+/** structure (GET)
+ * email: string
+ */
+/** structure (Delete)
+ * item_no: number
+ * email: string
+*/
+// add to cart
+app.post('/cart/add', (req, res) => {
+    let item_type = req.body.item_type;
+    let itemId = Number(req.body.item_id);
+    let name = req.body.name;
+    let emailId = req.body.email;
+    if(!item_type || !itemId || !name || !emailId) {
+        res.send('Invalid input type');
+    } else if(itemId > 80) {
+        res.send('Invalid item id');
+    } else {
+        // check if item already exists in user's cart
+        query = {email: emailId, item_id: itemId};
+        db.collection('cart').find(query).toArray((err, result) => {
+            if(result.length > 0) {
+                res.send('item already present in cart');
+            } 
+            // if not exists then add
+            else {
+                db.collection('cart').insertOne(req.body, (err, result) => {
+                    if(err) throw err;
+                    res.send(result);
+                })
+            }
+        })
+    }
+});
+
+// fetch item from cart (all / based on email)
+app.get('/cart/get', (req, res) => {
+    let email = req.query.email;        // provide email in url
+    let query = {};
+    if(email) {
+        query = {email: email};
+    }
+    db.collection('cart').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// delete from cart
+app.delete('/cart/:email', (req,res) => {
+    let email = req.params.email;
+    db.collection('cart').deleteOne({email:email}, (err, result) => {
+        if(err) throw err;
+        res.send('Order Deleted')
+    })
+});
+
+// wishlist  (same as cart)
 // post, get_particular_user's, delete
-// orders
+// orders (same as cart)
 // post, get_particular_user's, get_all_items with count
 
 // connect to database
