@@ -13,7 +13,7 @@
 
 7) when the apis are running locally perfectly then -> 
 8) go to mongodb website, sign in, create a cluster (free one) if you don't have a cluster
-9) and then setup ip as 0.0.0.0/0 and username: alpha, password: alpha123
+9) and then setup ip as 0.0.0.0/0 and username: alpha, password: alpha123  (don't use any special char in password, it creates problems in connecting using code later on)
 10) go to dashboard and create a database (same as that on your local mongodb database)
 11) create same collections, and add data to them in same way as done in local db
 12) after this done, go to dashboard, and click connect > connect my application; copy the url, and paste in .env file as value of MongoLiveUrl
