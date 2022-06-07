@@ -24,6 +24,8 @@ MongoLiveUrl = "your_live_db_url"
 
 > Note: `your_live_db_url` would look like this: `mongodb+srv://<username>:<password>@cluster0.ecqfv.mongodb.net/?retryWrites=true&w=majority`
 
+> Note: Check the database name in `app.js` and ensure you are connecting to correct database.
+
 ### Run the APP
 ```npm
 npm start
