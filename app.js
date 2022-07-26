@@ -495,7 +495,7 @@ app.delete('/orders/deleteAll', (req, res) => {
 MongoClient.connect(mongoUrl, (err, client) => {
     if (err) console.log("Error while connecting");
 
-    db = client.db('project2');
+    db = client.db('project2-live');
 
     app.listen(port, (err) => {
         if (err) throw err;
