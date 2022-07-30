@@ -63,7 +63,7 @@ app.get('/item/:itemName', (req, res) => {
     if(itemId) {
         query = {item_id: Number(itemId)};
     }
-    db.collection(itemName).find(query).limit(12).toArray((err, result) => {
+    db.collection(itemName).find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -79,7 +79,7 @@ app.get('/filter/popularity/:item', (req, res) => {
     let itemName = req.params.item;
     let query = {hidden_stars:{$gt: 4}};
 
-    db.collection(itemName).find(query).limit(12).toArray((err, result) => {
+    db.collection(itemName).find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -96,7 +96,7 @@ app.get('/filter/price/:item', (req, res) => {
     if(req.query.sort) {
         sort_order = {new_price: Number(req.query.sort)};
     }
-    db.collection(itemName).find().sort(sort_order).limit(12).toArray((err, result) => {
+    db.collection(itemName).find().sort(sort_order).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
     })
@@ -111,7 +111,7 @@ app.get('/filter/new/:item', (req, res) => {
     let itemName = req.params.item;
     let query = { $and:[{hidden_stars: {$lt:4.2 , $gt: 3.5}}] };       // my criteria defining 'what is new data'
 
-    db.collection(itemName).find(query).limit(12).toArray((err, result) => {
+    db.collection(itemName).find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -126,7 +126,7 @@ app.get('/filter/discount/:item/:dis', (req, res) => {
     let discount = req.params.dis;
 
     let query = {discount:{$gt: Number(discount)}};
-    db.collection(itemName).find(query).limit(12).toArray((err, result) => {
+    db.collection(itemName).find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -141,7 +141,7 @@ app.get('/filter/rating/:item/:rating', (req, res) => {
     let rating = req.params.rating;
     let query = {hidden_stars:{$gt: Number(rating)}};
 
-    db.collection(itemName).find(query).limit(12).toArray((err, result) => {
+    db.collection(itemName).find(query).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
@@ -154,7 +154,7 @@ app.get('/filter/offers/:item', (req, res) => {
     let itemName = req.params.item;
     let sort_order = {discount: -1}     // max discount first (i.e. less cost items) : offer!
 
-    db.collection(itemName).find().sort(sort_order).limit(12).toArray((err, result) => {
+    db.collection(itemName).find().sort(sort_order).toArray((err, result) => {
         if (err) throw err;
         res.send(result);
     });
