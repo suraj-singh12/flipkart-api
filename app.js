@@ -96,7 +96,8 @@ app.get('/filter/price/:item', (req, res) => {
     if(req.query.sort) {
         sort_order = {new_price: Number(req.query.sort)};
     }
-    db.collection(itemName).find().sort(sort_order).toArray((err, result) => {
+    let query = {new_price:{$gt: 50}};
+    db.collection(itemName).find(query).sort(sort_order).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
     })
