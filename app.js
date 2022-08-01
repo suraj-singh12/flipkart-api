@@ -103,6 +103,17 @@ app.get('/filter/price/:item', (req, res) => {
     })
 })
 
+// cost filter
+app.get('/filter/cost/:item', (req, res) => {
+    let lcost = req.params.lcost;
+    let hcost = req.params.hcost;
+    let query = {new_price:{$gt: lcost, $lt: hcost}};
+    db.collection(itemName).find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    })
+})
+
 // filter by newest first
 // http://localhost:9200/filter/new/bags
 // http://localhost:9200/filter/new/keyboards
