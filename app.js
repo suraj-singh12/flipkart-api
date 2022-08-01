@@ -92,11 +92,24 @@ app.get('/filter/popularity/:item', (req, res) => {
 // https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1
 app.get('/filter/price/:item', (req, res) => {
     let itemName = req.params.item;
+
+    let lcost = Number(req.query.lcost);
+    let hcost = Number(req.query.hcost); 
+    let query = {new_price:{$gt: 50}};
+
+    if(lcost && hcost) 
+        query = {new_price:{$gt: lcost, $lt: hcost}};
+    else if(!lcost && hcost) 
+        query = {new_price:{$gt: 50, $lt: hcost}};
+    else if(lcost && !hcost)
+        query = {new_price:{$gt: lcost}};
+    
+    
     let sort_order = {new_price: 1};        // -1 to sort in desc order
     if(req.query.sort) {
         sort_order = {new_price: Number(req.query.sort)};
     }
-    let query = {new_price:{$gt: 50}};
+    
     db.collection(itemName).find(query).sort(sort_order).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
