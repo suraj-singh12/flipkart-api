@@ -106,8 +106,8 @@ app.get('/filter/price/:item', (req, res) => {
 // cost filter
 // https://app2fkartapi.herokuapp.com/filter/cost/bags?lcost=500&hcost=1050
 app.get('/filter/cost/:item', (req, res) => {
-    let lcost = req.query.lcost;
-    let hcost = req.query.hcost;    
+    let lcost = Number(req.query.lcost);
+    let hcost = Number(req.query.hcost);    
     let query = {};
 
     if(lcost && hcost) 
