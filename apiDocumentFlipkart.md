@@ -13,10 +13,20 @@
 
 > Live : https://app2fkartapi.herokuapp.com/filter/popularity/refrigerators
 
-## Filter By Price (Low To High / High To Low)        [GET]
+## Sort By Price (Low To High / High To Low)        [GET]
 > Local: http://localhost:9200/filter/price/bags?sort=-1
 
 > Live : https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1
+
+## Filter By Price (low cost / high cost)              [GET]
+> Local: http://localhost:9200/filter/price/bags?lcost=500&hcost=1000
+
+> Live : https://app2fkartapi.herokuapp.com/filter/price/bags?lcost=500&hcost=1000
+
+## Filter and Sort By Price
+> Local: http://localhost:9200/filter/price/bags?sort=-1&lcost=500&hcost=1000
+
+> Live : https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1&lcost=500&hcost=1000
 
 ## Filter By Newest First                             [GET]
 > Local: http://localhost:9200/filter/new/keyboards

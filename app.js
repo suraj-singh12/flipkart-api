@@ -90,6 +90,8 @@ app.get('/filter/popularity/:item', (req, res) => {
 // http://localhost:9200/filter/price/bags?sort=-1
 // https://app2fkartapi.herokuapp.com/filter/price/bags
 // https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1
+// https://app2fkartapi.herokuapp.com/filter/price/bags?lcost=50&hcost=1000
+// https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1&lcost=50&hcost=1000
 app.get('/filter/price/:item', (req, res) => {
     let itemName = req.params.item;
 
@@ -118,24 +120,24 @@ app.get('/filter/price/:item', (req, res) => {
 
 // cost filter
 // https://app2fkartapi.herokuapp.com/filter/cost/bags?lcost=500&hcost=1050
-app.get('/filter/cost/:item', (req, res) => {
-    let itemName = req.params.item;
-    let lcost = Number(req.query.lcost);
-    let hcost = Number(req.query.hcost);    
-    let query = {};
+// app.get('/filter/cost/:item', (req, res) => {
+//     let itemName = req.params.item;
+//     let lcost = Number(req.query.lcost);
+//     let hcost = Number(req.query.hcost);    
+//     let query = {};
 
-    if(lcost && hcost) 
-        query = {new_price:{$gt: lcost, $lt: hcost}};
-    else if(!lcost) 
-        query = {new_price:{$lt: hcost}};
-    else if(!hcost)
-        query = {new_price:{$gt: lcost}};
+//     if(lcost && hcost) 
+//         query = {new_price:{$gt: lcost, $lt: hcost}};
+//     else if(!lcost) 
+//         query = {new_price:{$lt: hcost}};
+//     else if(!hcost)
+//         query = {new_price:{$gt: lcost}};
     
-    db.collection(itemName).find(query).toArray((err, result) => {
-        if(err) throw err;
-        res.send(result);
-    })
-})
+//     db.collection(itemName).find(query).toArray((err, result) => {
+//         if(err) throw err;
+//         res.send(result);
+//     })
+// })
 
 // filter by newest first
 // http://localhost:9200/filter/new/bags
