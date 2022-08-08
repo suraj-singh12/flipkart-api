@@ -230,8 +230,6 @@ app.post('/cart/add', (req, res) => {
     let emailId = req.body.email;
     if(!itemType || !itemId || !name || !emailId) {
         res.send('Invalid input type');
-    } else if(itemId > 80) {
-        res.send('Invalid item id');
     } else {
         // check if item already exists in user's cart
         query = {email: emailId, item_id: itemId, item_type: itemType};
