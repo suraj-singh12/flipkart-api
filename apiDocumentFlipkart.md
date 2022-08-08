@@ -134,6 +134,12 @@ Example data:
 
 > Live : https://app2fkartapi.herokuapp.com/wishlist/get/alpha1@alpha.com
 
+## Get Wishlist Items of a particular user by ItemType, ItemId       [GET]
+<!-- this will be used to check if user is trying to add same item to wishlist again -->
+> Local : http://localhost:9200/wishlist/getItemById/suraj@gmail.com/clothes/45
+
+> Live : https://app2fkartapi.herokuapp.com/wishlist/getItemById/suraj@gmail.com/clothes/45
+
 ## List of Orders Placed                             [GET]
 > Local: http://localhost:9200/orders/getAll
 

@@ -257,7 +257,7 @@ app.post('/cart/add', (req, res) => {
 app.get('/cart/get/:email', (req, res) => {
     let emailId = req.params.email;        // provide email in url
     let query = {email: emailId};
-    
+
     db.collection('cart').find(query).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
@@ -374,6 +374,21 @@ app.get('/wishlist/get/:email', (req, res) => {
 // https://app2fkartapi.herokuapp.com/wishlist/getAll
 app.get('/wishlist/getAll', (req, res) => {
     let query = {};
+    db.collection('wishlist').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// get item from wishlist by itemType & itemId
+// http://localhost:9200/wishlist/getItemById/suraj@gmail.com/clothes/45
+// https://app2fkartapi.herokuapp.com/wishlist/getItemById/suraj@gmail.com/clothes/45
+app.get('/wishlist/getItemById/:emailId/:itemType/:itemId', (req, res) => {
+    let emailId = req.params.emailId;
+    let itemType = req.params.itemType;
+    let itemId = req.params.itemId;
+
+    let query = {email: emailId, item_type:itemType, item_id: itemId};
     db.collection('wishlist').find(query).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
