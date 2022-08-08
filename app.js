@@ -251,17 +251,23 @@ app.post('/cart/add', (req, res) => {
     }
 });
 
-// fetch item from cart (all / based on email)
-// http://localhost:9200/cart/get
-// http://localhost:9200/cart/get?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/cart/get
-// https://app2fkartapi.herokuapp.com/cart/get?email=alpha1@alpha.com
-app.get('/cart/get', (req, res) => {
-    let emailId = req.query.email;        // provide email in url
+// fetch item from cart (based on email)
+// http://localhost:9200/cart/get/alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/cart/get/alpha1@alpha.com
+app.get('/cart/get/:email', (req, res) => {
+    let emailId = req.params.email;        // provide email in url
+    let query = {email: emailId};
+    
+    db.collection('cart').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+// fetch items from cart (all)
+// http://localhost:9200/cart/getAll
+// https://app2fkartapi.herokuapp.com/cart/getAll
+app.get('/cart/getAll', (req, res) => {
     let query = {};
-    if(emailId) {
-        query = {email: emailId};
-    }
     db.collection('cart').find(query).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
@@ -351,17 +357,23 @@ app.post('/wishlist/add', (req, res) => {
     }
 });
 
-// fetch item from wishlist (all / based on email)
-// http://localhost:9200/wishlist/get
-// http://localhost:9200/wishlist/get?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/wishlist/get
-// https://app2fkartapi.herokuapp.com/wishlist/get?email=alpha1@alpha.com
-app.get('/wishlist/get', (req, res) => {
-    let emailId = req.query.email;        // provide email in url
+// fetch item from wishlist (based on email)
+// http://localhost:9200/wishlist/get/alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/wishlist/get/alpha1@alpha.com
+app.get('/wishlist/get/:email', (req, res) => {
+    let emailId = req.params.email;        // provide email in url
+    let query = {email: emailId};
+    db.collection('wishlist').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// fetch items from wishlist (all)
+// http://localhost:9200/wishlist/getAll
+// https://app2fkartapi.herokuapp.com/wishlist/getAll
+app.get('/wishlist/getAll', (req, res) => {
     let query = {};
-    if(emailId) {
-        query = {email: emailId};
-    }
     db.collection('wishlist').find(query).toArray((err, result) => {
         if(err) throw err;
         res.send(result);
@@ -464,17 +476,24 @@ app.post('/orders/add', (req, res) => {
     }
 });
 
-// fetch item from wishlist (all / based on email)
-// http://localhost:9200/orders/get
-// http://localhost:9200/orders/get?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/orders/get
-// https://app2fkartapi.herokuapp.com/orders/get?email=alpha1@alpha.com
-app.get('/orders/get', (req, res) => {
-    let email = req.query.email;        // provide email in url
+// fetch item from wishlist (based on email)
+// http://localhost:9200/orders/get/alpha1@alpha.com
+// https://app2fkartapi.herokuapp.com/orders/get/alpha1@alpha.com
+app.get('/orders/get/:email', (req, res) => {
+    let email = req.params.email;        // provide email in url
+    let query = {email: email};
+
+    db.collection('orders').find(query).toArray((err, result) => {
+        if(err) throw err;
+        res.send(result);
+    });
+});
+
+// fetch items from wishlist (all)
+// http://localhost:9200/orders/getAll
+// https://app2fkartapi.herokuapp.com/orders/getAll
+app.get('/orders/getAll', (req, res) => {
     let query = {};
-    if(email) {
-        query = {email: email};
-    }
     db.collection('orders').find(query).toArray((err, result) => {
         if(err) throw err;
         res.send(result);

@@ -115,34 +115,34 @@ Example data:
 
 # Page 4
 ## List of Cart Items                                [GET]  
-> Local: http://localhost:9200/cart/get
+> Local: http://localhost:9200/cart/getAll
 
-> Live : https://app2fkartapi.herokuapp.com/cart/get
+> Live : https://app2fkartapi.herokuapp.com/cart/getAll
 
 ## List of Cart Items of particular user             [GET]
-> Local: http://localhost:9200/cart/get?email=alpha1@alpha.com
+> Local: http://localhost:9200/cart/get/alpha1@alpha.com
 
-> Live : https://app2fkartapi.herokuapp.com/cart/get?email=alpha1@alpha.com
+> Live : https://app2fkartapi.herokuapp.com/cart/get/alpha1@alpha.com
 
 ## List Of Wishlist Items                            [GET]
-> Local: http://localhost:9200/wishlist/get
+> Local: http://localhost:9200/wishlist/getAll
 
-> Live : https://app2fkartapi.herokuapp.com/wishlist/get
+> Live : https://app2fkartapi.herokuapp.com/wishlist/getAll
 
 ## List of Wishlist Items of particular user         [GET]
-> Local: http://localhost:9200/wishlist/get?email=alpha1@alpha.com
+> Local: http://localhost:9200/wishlist/get/alpha1@alpha.com
 
-> Live : https://app2fkartapi.herokuapp.com/wishlist/get?email=alpha1@alpha.com
+> Live : https://app2fkartapi.herokuapp.com/wishlist/get/alpha1@alpha.com
 
 ## List of Orders Placed                             [GET]
-> Local: http://localhost:9200/orders/get
+> Local: http://localhost:9200/orders/getAll
 
-> Live : https://app2fkartapi.herokuapp.com/orders/get
+> Live : https://app2fkartapi.herokuapp.com/orders/getAll
 
 ## List Of orders of particular User                [GET]
-> Local: http://localhost:9200/orders/get?email=alpha1@alpha.com
+> Local: http://localhost:9200/orders/get/alpha1@alpha.com
 
-> Live : https://app2fkartapi.herokuapp.com/orders/get?email=alpha1@alpha.com
+> Live : https://app2fkartapi.herokuapp.com/orders/get/alpha1@alpha.com
 
 
 ## API To Update User's Orders using order number   [PUT]
