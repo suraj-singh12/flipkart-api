@@ -225,7 +225,7 @@ app.get('/filter/offers/:item', (req, res) => {
 // https://app2fkartapi.herokuapp.com/cart/add
 app.post('/cart/add', (req, res) => {
     let itemType = req.body.item_type;
-    let itemId = Number(req.body.item_id);
+    let itemId = req.body.item_id;
     let name = req.body.name;
     let emailId = req.body.email;
     if(!itemType || !itemId || !name || !emailId) {
