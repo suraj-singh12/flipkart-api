@@ -566,7 +566,7 @@ app.delete('/orders/deleteAll', (req, res) => {
 // https://app2fkartapi.herokuapp.com/updateAddress?address=anand-vihar
 app.put('/updateAddress/:email', (req, res) => {
     let email = req.params.email;
-    let addr = req.params.address;
+    let addr = req.query.address;
     db.collection('users').updateOne(   
         {email: email},
         {
