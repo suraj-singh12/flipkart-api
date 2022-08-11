@@ -560,6 +560,27 @@ app.delete('/orders/deleteAll', (req, res) => {
     })
 })
 
+
+// update address
+// http://localhost:9200/updateAddress?address=anand-vihar
+// https://app2fkartapi.herokuapp.com/updateAddress?address=anand-vihar
+app.put('/updateAddress/:email', (req, res) => {
+    let email = req.params.email;
+    let addr = req.params.address;
+    db.collection('users').updateOne(   
+        {email: email},
+        {
+            $set:{
+                "address": addr
+            }
+        }, (err, result) => {
+            if(err) throw err;
+            res.status(200).send(`Address updated for ${email}`);
+        }
+    )
+})
+
+
 // connect to database
 MongoClient.connect(mongoUrl, (err, client) => {
     if (err) console.log("Error while connecting");
