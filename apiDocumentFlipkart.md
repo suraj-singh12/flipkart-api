@@ -160,7 +160,8 @@ Example data:
 Example data:
 {
 "transaction_state": "Completed",
-"date": "06-06-2022"
+"date": "06-06-2022",
+"bank_name": "SBI"
 }
 
 

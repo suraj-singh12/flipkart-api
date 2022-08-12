@@ -527,7 +527,8 @@ app.get('/orders/getAll', (req, res) => {
 // https://app2fkartapi.herokuapp.com/orders/update/2575
 // {
 // "transaction_state": "Completed",
-// "date": "06-06-2022"
+// "date": "06-06-2022",
+// "bank_name": "SBI"
 // }
 app.put('/orders/update/:order_id', (req, res) => {
     let orderId = Number(req.params.order_id);
@@ -536,7 +537,8 @@ app.put('/orders/update/:order_id', (req, res) => {
         {
             $set:{
                 "transaction_state":req.body.transaction_state,
-                "date":req.body.date
+                "date":req.body.date,
+                "bank_name":req.body.bank_name
             }
         }, (err, result) => {
             if(err) throw err;
