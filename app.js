@@ -443,9 +443,12 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 //     "order_id": 51,    (send any number; it is auto generated later uniquely)
 //     "item_id": 58,
 //     "item_type": "mouses",
+//     "amount" : 100,
+//     "quantity": 1,
+//     "total_amount": 100,
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com",
-//     "amount": 345,
+//     "phone": "1234567890",
 //     "bank_name": "SBI",
 //     "transaction_state": "In Process"
 // }
@@ -454,11 +457,13 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // "order_id": 51,
 // "item_id": 43,
 // "item_type": "keyboards",
+// "amount": 345,
+// "quantity": 1,
+// "total_amount": 345,
 // "name": "alpha1",
 // "email": "alpha3451@alpha.com",
 // "phone": 9589658210,
-// "amount": 345,
-// "bank_name": "SBI",
+// "bank_name": "SBI",                  // need not to pass
 // "transaction_state": "Completed"     // need not to pass
 // }
 // http://localhost:9200/orders/add
@@ -466,20 +471,23 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 app.post('/orders/add', (req, res) => {
     let orderId = Math.floor(Math.random() * 10000);
     req.body.order_id = orderId;
-    let itemId = Number(req.body.item_id);
+
+    let itemId = req.body.item_id;
     let itemType = req.body.item_type;
+    let amount = req.body.amount;
+    let quantity = req.body.quantity;
+    let totalAmount = req.body.total_amount;
+
     let name = req.body.name;
     let emailId = req.body.email;
     let phoneNo = req.body.phone;
-    let amount = req.body.amount;
+    
     let bankName = req.body.bank_name;
     let transactionState = req.body.transaction_state ? req.body.transaction_state : 'In Progress';
     req.body.transaction_state = transactionState;
-
-    if(!orderId || !itemId || !itemType || !name || !emailId || !phoneNo || !amount || !bankName) {
-        res.send('Invalid input type');
-    } else if(itemId > 80) {
-        res.send('Invalid item id');
+    
+    if(!itemId || !itemType || !amount || !quantity || !totalAmount || !name || !emailId || !phoneNo) {
+        res.send('Incomplete input!');
     } else {
         db.collection('orders').insertOne(req.body, (err, result) => {
             if(err) throw err;

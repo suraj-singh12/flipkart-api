@@ -93,11 +93,12 @@ Example data:
 "order_id": 51,
 "item_id": 43,
 "item_type": "keyboards",
+"amount": 345,
+"quantity": 1,
+"total_amount": 345,
 "name": "alpha1",
 "email": "alpha3451@alpha.com",
 "phone": 9589658210,
-"amount": 345,
-"bank_name": "SBI"
 }
 
 
