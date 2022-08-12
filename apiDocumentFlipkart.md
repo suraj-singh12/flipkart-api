@@ -98,7 +98,7 @@ Example data:
 "total_amount": 345,
 "name": "alpha1",
 "email": "alpha3451@alpha.com",
-"phone": 9589658210,
+"phone": 9589658210
 }
 
 
