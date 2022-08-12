@@ -440,7 +440,7 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 
 // order made STRUCTURE
 // {
-//     "order_id": 51,    (send any number; it is auto generated later uniquely)
+//     "order_id": 51,
 //     "item_id": 58,
 //     "item_type": "mouses",
 //     "amount" : 100,
@@ -469,8 +469,8 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // http://localhost:9200/orders/add
 // https://app2fkartapi.herokuapp.com/orders/add
 app.post('/orders/add', (req, res) => {
-    let orderId = Math.floor(Math.random() * 10000);
-    req.body.order_id = orderId;
+    let orderId = req.body.order_id;
+    // req.body.order_id = orderId;
 
     let itemId = req.body.item_id;
     let itemType = req.body.item_type;
