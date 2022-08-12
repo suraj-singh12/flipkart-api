@@ -482,7 +482,7 @@ app.post('/orders/add', (req, res) => {
     let emailId = req.body.email;
     let phoneNo = req.body.phone;
     
-    let bankName = req.body.bank_name;
+    // let bankName = req.body.bank_name;
     let transactionState = req.body.transaction_state ? req.body.transaction_state : 'In Progress';
     req.body.transaction_state = transactionState;
     
