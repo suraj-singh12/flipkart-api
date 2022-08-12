@@ -531,7 +531,7 @@ app.get('/orders/getAll', (req, res) => {
 // "bank_name": "SBI"
 // }
 app.put('/orders/update/:order_id', (req, res) => {
-    let orderId = Number(req.params.order_id);
+    let orderId = req.params.order_id;
     db.collection('orders').updateOne(
         {order_id: orderId},
         {
