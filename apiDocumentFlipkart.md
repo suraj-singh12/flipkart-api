@@ -70,7 +70,7 @@ Example data:
     "discount": 75,
     "delivery_type": "Free delivery",
     "hidden_stars": 3.9,
-    "item_id": 1
+    "item_id": 1,
 
     "item_type": "mouses",
     "name": "alpha1",
@@ -93,7 +93,7 @@ Example data:
     "discount": 75,
     "delivery_type": "Free delivery",
     "hidden_stars": 3.9,
-    "item_id": 1
+    "item_id": 1,
 
     "item_type": "mouses",
     "name": "alpha1",
