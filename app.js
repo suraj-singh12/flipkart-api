@@ -216,10 +216,19 @@ app.get('/filter/offers/:item', (req, res) => {
 
 // add to cart
 // {
-//     "item_id": 58,
-//     "item_type": "mouses",
-//     "name": "alpha1",
-//     "email": "alpha1@alpha.com"
+    // "image": "https://i.ibb.co/HpkT5G0/5f5c2646fccf.jpg",
+    // "brand": "IDISI CLOTHES",
+    // "description": "Unstitched Polycotton Shirt Fabric Printed",
+    // "new_price": 249,
+    // "old_price": 999,
+    // "discount": 75,
+    // "delivery_type": "Free delivery",
+    // "hidden_stars": 3.9,
+    // "item_id": 1
+    
+    // "item_type": "mouses",
+    // "name": "alpha1",
+    // "email": "alpha1@alpha.com"
 // }
 // http://localhost:9200/cart/add
 // https://app2fkartapi.herokuapp.com/cart/add
