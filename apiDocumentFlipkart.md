@@ -72,7 +72,7 @@ Example data:
     "hidden_stars": 3.9,
     "item_id": 1,
 
-    "item_type": "mouses",
+    "item_type": "clothes",
     "name": "alpha1",
     "email": "alpha1@alpha.com"
 }
@@ -95,7 +95,7 @@ Example data:
     "hidden_stars": 3.9,
     "item_id": 1,
 
-    "item_type": "mouses",
+    "item_type": "clothes",
     "name": "alpha1",
     "email": "alpha1@alpha.com"
 }

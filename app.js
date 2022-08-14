@@ -226,7 +226,7 @@ app.get('/filter/offers/:item', (req, res) => {
     // "hidden_stars": 3.9,
     // "item_id": 1,
 
-    // "item_type": "mouses",
+    // "item_type": "clothes",
     // "name": "alpha1",
     // "email": "alpha1@alpha.com"
 // }
@@ -339,21 +339,19 @@ app.delete('/cart/deleteAll', (req, res) => {
 //     "hidden_stars": 3.9,
 //     "item_id": 1,
 
-//     "item_type": "mouses",
+//     "item_type": "clothes",
 //     "name": "alpha1",
 //     "email": "alpha1@alpha.com"
 // }
 // http://localhost:9200/wishlist/add
 // https://app2fkartapi.herokuapp.com/wishlist/add
 app.post('/wishlist/add', (req, res) => {
-    let itemId = Number(req.body.item_id);
+    let itemId = req.body.item_id;
     let itemType = req.body.item_type;
     let name = req.body.name;
     let emailId = req.body.email;
     if(!itemType || !itemId || !name || !emailId) {
         res.send('Invalid input type');
-    } else if(itemId > 80) {        // max item id = 80
-        res.send('Invalid item id');
     } else {
         // check if item already exists in user's wishlist
         query = {email: emailId, item_id: itemId, item_type: itemType};
