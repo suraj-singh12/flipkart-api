@@ -25,7 +25,7 @@ app.get('/', (req, res) => {
 
 // list all the APIs: mouse, clothes, etc
 // http://localhost:9200/list-apis
-// https://app2fkartapi.herokuapp.com/list-apis
+// https://crazy-dove-yoke.cyclic.app/list-apis
 app.get('/list-apis', (req, res) => {
     db.listCollections().toArray((err, collInfo) => {
         if (err) throw err;
@@ -40,7 +40,7 @@ app.get('/list-apis', (req, res) => {
 
 // api to get `all items` of any itemType 
 // http://localhost:9200/api/shirts
-// https://app2fkartapi.herokuapp.com/api/shirts
+// https://crazy-dove-yoke.cyclic.app/api/shirts
 app.get('/api/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     db.collection(itemName).find().toArray((err, result) => {
@@ -54,8 +54,8 @@ app.get('/api/:itemName', (req, res) => {
 // api for search bar (returns 12 items by default)
 // http://localhost:9200/item/clothes
 // http://localhost:9200/item/clothes?itemId=12
-// https://app2fkartapi.herokuapp.com/item/clothes
-// https://app2fkartapi.herokuapp.com/item/clothes?itemId=12
+// https://crazy-dove-yoke.cyclic.app/item/clothes
+// https://crazy-dove-yoke.cyclic.app/item/clothes?itemId=12
 app.get('/item/:itemName', (req, res) => {
     let itemName = req.params.itemName;
     let itemId = req.query.itemId;
@@ -73,8 +73,8 @@ app.get('/item/:itemName', (req, res) => {
 // filter by popularity
 // http://localhost:9200/filter/popularity/mouses
 // http://localhost:9200/filter/popularity/refrigerators
-// https://app2fkartapi.herokuapp.com/filter/popularity/mouses
-// https://app2fkartapi.herokuapp.com/filter/popularity/refrigerators
+// https://crazy-dove-yoke.cyclic.app/filter/popularity/mouses
+// https://crazy-dove-yoke.cyclic.app/filter/popularity/refrigerators
 app.get('/filter/popularity/:item', (req, res) => {
     let itemName = req.params.item;
     let query = {hidden_stars:{$gt: 4}};
@@ -88,10 +88,10 @@ app.get('/filter/popularity/:item', (req, res) => {
 // filter by price
 // http://localhost:9200/filter/price/bags
 // http://localhost:9200/filter/price/bags?sort=-1
-// https://app2fkartapi.herokuapp.com/filter/price/bags
-// https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1
-// https://app2fkartapi.herokuapp.com/filter/price/bags?lcost=50&hcost=1000
-// https://app2fkartapi.herokuapp.com/filter/price/bags?sort=-1&lcost=50&hcost=1000
+// https://crazy-dove-yoke.cyclic.app/filter/price/bags
+// https://crazy-dove-yoke.cyclic.app/filter/price/bags?sort=-1
+// https://crazy-dove-yoke.cyclic.app/filter/price/bags?lcost=50&hcost=1000
+// https://crazy-dove-yoke.cyclic.app/filter/price/bags?sort=-1&lcost=50&hcost=1000
 app.get('/filter/price/:item', (req, res) => {
     let itemName = req.params.item;
 
@@ -119,7 +119,7 @@ app.get('/filter/price/:item', (req, res) => {
 })
 
 // cost filter
-// https://app2fkartapi.herokuapp.com/filter/cost/bags?lcost=500&hcost=1050
+// https://crazy-dove-yoke.cyclic.app/filter/cost/bags?lcost=500&hcost=1050
 // app.get('/filter/cost/:item', (req, res) => {
 //     let itemName = req.params.item;
 //     let lcost = Number(req.query.lcost);
@@ -142,8 +142,8 @@ app.get('/filter/price/:item', (req, res) => {
 // filter by newest first
 // http://localhost:9200/filter/new/bags
 // http://localhost:9200/filter/new/keyboards
-// https://app2fkartapi.herokuapp.com/filter/new/bags
-// https://app2fkartapi.herokuapp.com/filter/new/keyboards
+// https://crazy-dove-yoke.cyclic.app/filter/new/bags
+// https://crazy-dove-yoke.cyclic.app/filter/new/keyboards
 app.get('/filter/new/:item', (req, res) => {
     let itemName = req.params.item;
     let query = { $and:[{hidden_stars: {$lt:4.2 , $gt: 3.5}}] };       // my criteria defining 'what is new data'
@@ -157,7 +157,7 @@ app.get('/filter/new/:item', (req, res) => {
 // filter by discount
 // http://localhost:9200/filter/discount/mouses/70
 // http://localhost:9200/filter/discount/powerbanks/50
-// https://app2fkartapi.herokuapp.com/filter/discount/powerbanks/50
+// https://crazy-dove-yoke.cyclic.app/filter/discount/powerbanks/50
 app.get('/filter/discount/:item/:dis', (req, res) => {
     let itemName = req.params.item;
     let discount = req.params.dis;
@@ -172,7 +172,7 @@ app.get('/filter/discount/:item/:dis', (req, res) => {
 // filter by customer-rating
 // http://localhost:9200/filter/rating/bags/4
 // http://localhost:9200/filter/rating/pillows/3
-// https://app2fkartapi.herokuapp.com/filter/rating/pillows/3
+// https://crazy-dove-yoke.cyclic.app/filter/rating/pillows/3
 app.get('/filter/rating/:item/:rating', (req, res) => {
     let itemName = req.params.item;
     let rating = req.params.rating;
@@ -186,7 +186,7 @@ app.get('/filter/rating/:item/:rating', (req, res) => {
 
 // filter by special-price (offers)
 // http://localhost:9200/filter/offers/mouses
-// https://app2fkartapi.herokuapp.com/filter/offers/mouses
+// https://crazy-dove-yoke.cyclic.app/filter/offers/mouses
 app.get('/filter/offers/:item', (req, res) => {
     let itemName = req.params.item;
     let sort_order = {discount: -1}     // max discount first (i.e. less cost items) : offer!
@@ -231,7 +231,7 @@ app.get('/filter/offers/:item', (req, res) => {
     // "email": "alpha1@alpha.com"
 // }
 // http://localhost:9200/cart/add
-// https://app2fkartapi.herokuapp.com/cart/add
+// https://crazy-dove-yoke.cyclic.app/cart/add
 app.post('/cart/add', (req, res) => {
     let itemType = req.body.item_type;
     let itemId = req.body.item_id;
@@ -260,7 +260,7 @@ app.post('/cart/add', (req, res) => {
 
 // fetch item from cart (based on email)
 // http://localhost:9200/cart/get/alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/cart/get/alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/cart/get/alpha1@alpha.com
 app.get('/cart/get/:email', (req, res) => {
     let emailId = req.params.email;        // provide email in url
     let query = {email: emailId};
@@ -272,7 +272,7 @@ app.get('/cart/get/:email', (req, res) => {
 });
 // fetch items from cart (all)
 // http://localhost:9200/cart/getAll
-// https://app2fkartapi.herokuapp.com/cart/getAll
+// https://crazy-dove-yoke.cyclic.app/cart/getAll
 app.get('/cart/getAll', (req, res) => {
     let query = {};
     db.collection('cart').find(query).toArray((err, result) => {
@@ -285,7 +285,7 @@ app.get('/cart/getAll', (req, res) => {
 // http://localhost:9200/cart/delete/alpha1@alpha.com/mouses/58
 // http://localhost:9200/cart/delete/alpha14@alpha.com/clothes/18
 // http://localhost:9200/cart/delete/alpha14@alpha.com/keyboard/18
-// https://app2fkartapi.herokuapp.com/cart/delete/alpha14@alpha.com/keyboard/18
+// https://crazy-dove-yoke.cyclic.app/cart/delete/alpha14@alpha.com/keyboard/18
 app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemType = req.params.item_type;
@@ -304,8 +304,8 @@ app.delete('/cart/delete/:email/:item_type/:item_id', (req,res) => {
 // for developer purpose 
 // http://localhost:9200/cart/deleteAll
 // http://localhost:9200/cart/deleteAll?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/cart/deleteAll
-// https://app2fkartapi.herokuapp.com/cart/deleteAll?email=alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/cart/deleteAll
+// https://crazy-dove-yoke.cyclic.app/cart/deleteAll?email=alpha1@alpha.com
 app.delete('/cart/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
@@ -344,7 +344,7 @@ app.delete('/cart/deleteAll', (req, res) => {
 //     "email": "alpha1@alpha.com"
 // }
 // http://localhost:9200/wishlist/add
-// https://app2fkartapi.herokuapp.com/wishlist/add
+// https://crazy-dove-yoke.cyclic.app/wishlist/add
 app.post('/wishlist/add', (req, res) => {
     let itemId = req.body.item_id;
     let itemType = req.body.item_type;
@@ -373,7 +373,7 @@ app.post('/wishlist/add', (req, res) => {
 
 // fetch item from wishlist (based on email)
 // http://localhost:9200/wishlist/get/alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/wishlist/get/alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/wishlist/get/alpha1@alpha.com
 app.get('/wishlist/get/:email', (req, res) => {
     let emailId = req.params.email;        // provide email in url
     let query = {email: emailId};
@@ -385,7 +385,7 @@ app.get('/wishlist/get/:email', (req, res) => {
 
 // fetch items from wishlist (all)
 // http://localhost:9200/wishlist/getAll
-// https://app2fkartapi.herokuapp.com/wishlist/getAll
+// https://crazy-dove-yoke.cyclic.app/wishlist/getAll
 app.get('/wishlist/getAll', (req, res) => {
     let query = {};
     db.collection('wishlist').find(query).toArray((err, result) => {
@@ -396,7 +396,7 @@ app.get('/wishlist/getAll', (req, res) => {
 
 // get item from wishlist by itemType & itemId
 // http://localhost:9200/wishlist/getItemById/suraj@gmail.com/clothes/45
-// https://app2fkartapi.herokuapp.com/wishlist/getItemById/suraj@gmail.com/clothes/45
+// https://crazy-dove-yoke.cyclic.app/wishlist/getItemById/suraj@gmail.com/clothes/45
 app.get('/wishlist/getItemById/:emailId/:itemType/:itemId', (req, res) => {
     let emailId = req.params.emailId;
     let itemType = req.params.itemType;
@@ -411,7 +411,7 @@ app.get('/wishlist/getItemById/:emailId/:itemType/:itemId', (req, res) => {
 
 // delete from wishlist
 // http://localhost:9200/wishlist/delete/alpha1@alpha.com/mouses/58
-// https://app2fkartapi.herokuapp.com/wishlist/delete/alpha1@alpha.com/mouses/58
+// https://crazy-dove-yoke.cyclic.app/wishlist/delete/alpha1@alpha.com/mouses/58
 app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
     let emailId = req.params.email;
     let itemType = req.params.item_type;
@@ -431,8 +431,8 @@ app.delete('/wishlist/delete/:email/:item_type/:item_id', (req,res) => {
 // for developer purpose 
 // http://localhost:9200/wishlist/deleteAll
 // http://localhost:9200/wishlist/deleteAll?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/wishlist/deleteAll
-// https://app2fkartapi.herokuapp.com/wishlist/deleteAll?email=alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/wishlist/deleteAll
+// https://crazy-dove-yoke.cyclic.app/wishlist/deleteAll?email=alpha1@alpha.com
 app.delete('/wishlist/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
@@ -483,7 +483,7 @@ app.delete('/wishlist/deleteAll', (req, res) => {
 // "transaction_state": "Completed"     // need not to pass
 // }
 // http://localhost:9200/orders/add
-// https://app2fkartapi.herokuapp.com/orders/add
+// https://crazy-dove-yoke.cyclic.app/orders/add
 app.post('/orders/add', (req, res) => {
     let orderId = req.body.order_id;
     // req.body.order_id = orderId;
@@ -515,7 +515,7 @@ app.post('/orders/add', (req, res) => {
 
 // fetch item from wishlist (based on email)
 // http://localhost:9200/orders/get/alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/orders/get/alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/orders/get/alpha1@alpha.com
 app.get('/orders/get/:email', (req, res) => {
     let email = req.params.email;        // provide email in url
     let query = {email: email};
@@ -528,7 +528,7 @@ app.get('/orders/get/:email', (req, res) => {
 
 // fetch items from wishlist (all)
 // http://localhost:9200/orders/getAll
-// https://app2fkartapi.herokuapp.com/orders/getAll
+// https://crazy-dove-yoke.cyclic.app/orders/getAll
 app.get('/orders/getAll', (req, res) => {
     let query = {};
     db.collection('orders').find(query).toArray((err, result) => {
@@ -540,7 +540,7 @@ app.get('/orders/getAll', (req, res) => {
 
 // update order status
 // http://localhost:9200/orders/update/2575
-// https://app2fkartapi.herokuapp.com/orders/update/2575
+// https://crazy-dove-yoke.cyclic.app/orders/update/2575
 // {
 // "transaction_state": "Completed",
 // "date": "06-06-2022",
@@ -567,8 +567,8 @@ app.put('/orders/update/:order_id', (req, res) => {
 // for developer purpose 
 // http://localhost:9200/orders/deleteAll
 // http://localhost:9200/orders/deleteAll?email=alpha1@alpha.com
-// https://app2fkartapi.herokuapp.com/orders/deleteAll
-// https://app2fkartapi.herokuapp.com/orders/deleteAll?email=alpha1@alpha.com
+// https://crazy-dove-yoke.cyclic.app/orders/deleteAll
+// https://crazy-dove-yoke.cyclic.app/orders/deleteAll?email=alpha1@alpha.com
 app.delete('/orders/deleteAll', (req, res) => {
     let emailId = req.query.email;
     let query = {};
@@ -589,7 +589,7 @@ app.delete('/orders/deleteAll', (req, res) => {
 
 // update address
 // http://localhost:9200/updateAddress?address=anand-vihar
-// https://app2fkartapi.herokuapp.com/updateAddress?address=anand-vihar
+// https://crazy-dove-yoke.cyclic.app/updateAddress?address=anand-vihar
 app.put('/updateAddress/:email', (req, res) => {
     let email = req.params.email;
     let addr = req.query.address;
